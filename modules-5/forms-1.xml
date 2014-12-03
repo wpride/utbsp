@@ -1,0 +1,261 @@
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:vellum="http://commcarehq.org/xforms/vellum">
+	<h:head>
+		<h:title>Contact TB Patient Follow-up</h:title>
+		<model>
+			<instance>
+				<data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/8CA9A628-6A56-43C7-9071-BDE50BBF805B" uiVersion="1" version="1188" name="Contact TB Patient Follow-up">
+					<followupdt/>
+					<cntrxstdate/>
+					<tbdosesmsd/>
+					<cnttbptltvisistdate/>
+					<reghivcln/>
+					<cnttbptcurrart/>
+					<cnttbptcpltfup/>
+					<cplttbrxoutcome/>
+					<search/>
+					<identify/>
+					<intent_0>com.biometrac.core.SCAN</intent_0>
+					<intent_1>com.biometrac.core.IDENTIFY</intent_1>
+					<finger_left_index>left_index</finger_left_index>
+					<finger_left_thumb>left_thumb</finger_left_thumb>
+					<finger_right_thumb>right_thumb</finger_right_thumb>
+					<finger_right_index>right_index</finger_right_index>
+					<left_index/>
+					<right_index/>
+					<left_thumb/>
+					<right_thumb/>
+					<match_id/>
+					<returned/>
+					<random_id/>
+					<name_lookup/>
+					<no_record_exists/>
+					<not_contact/>
+					<pttype/>
+					<record_exists/>
+					<case xmlns="http://commcarehq.org/case/transaction/v2" case_id="" date_modified="" user_id="">
+						
+					<update vellum:ignore="retain">
+							<lastvisit/>
+						</update></case>
+				<orx:meta xmlns:cc="http://commcarehq.org/xforms"><orx:deviceID/><orx:timeStart/><orx:timeEnd/><orx:username/><orx:userID/><orx:instanceID/><cc:appVersion/></orx:meta></data>
+			</instance><instance id="commcaresession" src="jr://instance/session"/>
+			<instance id="casedb" src="jr://instance/casedb"/>
+			<bind nodeset="/data/followupdt" type="xsd:date" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/cntrxstdate" type="xsd:date" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/tbdosesmsd" type="xsd:int" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/cnttbptltvisistdate" type="xsd:date" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/reghivcln" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/cnttbptcurrart" relevant="/data/reghivcln = 'yes' and not(/data/returned = '0')"/>
+			<bind nodeset="/data/cnttbptcpltfup" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/cplttbrxoutcome" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/search" type="intent" required="false()"/>
+			<bind nodeset="/data/identify"/>
+			<bind nodeset="/data/intent_0"/>
+			<bind nodeset="/data/intent_1"/>
+			<bind nodeset="/data/finger_left_index"/>
+			<bind nodeset="/data/finger_left_thumb"/>
+			<bind nodeset="/data/finger_right_thumb"/>
+			<bind nodeset="/data/finger_right_index"/>
+			<bind nodeset="/data/left_index" type="xsd:string"/>
+			<bind nodeset="/data/right_index" type="xsd:string"/>
+			<bind nodeset="/data/left_thumb" type="xsd:string"/>
+			<bind nodeset="/data/right_thumb" type="xsd:string"/>
+			<bind nodeset="/data/match_id"/>
+			<bind nodeset="/data/returned"/>
+			<bind nodeset="/data/random_id"/>
+			<bind nodeset="/data/name_lookup"/><setvalue vellum:ignore="retain" event="xforms-revalidate" ref="/data/case/@case_id" value="/data/match_id"/><bind vellum:ignore="retain" nodeset="/data/case/@date_modified" type="dateTime" calculate="now()"/><bind vellum:ignore="retain" nodeset="/data/case/@user_id" calculate="/data/meta/userID"/><bind vellum:ignore="retain" calculate="now()" nodeset="/data/case/update/lastvisit"/><bind vellum:ignore="retain" nodeset="/data/case/update"/>
+			<bind nodeset="/data/no_record_exists" relevant="/data/returned = '0'"/>
+			<bind nodeset="/data/not_contact" relevant="/data/pttype != 'contact'"/>
+			<bind nodeset="/data/pttype" type="xsd:string" relevant="/data/returned != '0'" calculate="if(/data/returned &gt; 0, instance('casedb')/casedb/case[@case_id=/data/match_id]/pttype, 'none found')"/>
+			<bind nodeset="/data/record_exists" relevant="not(/data/returned = '0')"/>
+			<bind nodeset="/data/case"/><bind vellum:ignore="retain" nodeset="/data/name_lookup" type="xsd:string" calculate="if(/data/rewqturned &gt; 0, instance('casedb')/casedb/case[@case_id=/data/match_id]/case_name, 'none found')"/>
+			<itext>
+				<translation lang="en" default="">
+					<text id="biometricscanid-label">
+						<value>BIOMETRIC SCANNING: verify that they are in the system already, block if not.</value>
+					</text>
+					<text id="no_record_exists-label">
+						<value>No record exist for this scan </value>
+					</text>
+					<text id="not_contact-label">
+						<value>Not a contact patient. Please return to the home screen.</value>
+					</text>
+					<text id="record_exists-label">
+						<value>Record exists with name: <output value="/data/name_lookup"/> and id: <output value="/data/match_id"/></value>
+					</text>
+					<text id="followupdt-label">
+						<value>Date of follow-up visit</value>
+					</text>
+					<text id="cntrxstdate-label">
+						<value>Date treatment started (auto-filled and displayed at every visit)</value>
+					</text>
+					<text id="tbdosesmsd-label">
+						<value>Reviewing the TB treatment card and the TB treatment register, how many months of treatment have been completed?</value>
+					</text>
+					<text id="tbdosesmsd-hint">
+						<value>Review treatment card with the patient and count</value>
+					</text>
+					<text id="cnttbptltvisistdate-label">
+						<value>On what date did the patient last receive a refill of TB medications?</value>
+					</text>
+					<text id="reghivcln-label">
+						<value>Is he or she registered in an HIV clinic?</value>
+					</text>
+					<text id="cnttbptcurrart-label">
+						<value>Has he or she started ART, is he/she still taking it?</value>
+					</text>
+					<text id="cnttbptcurrart-nohiv-label">
+						<value>Patient Does Not Have HIV</value>
+					</text>
+					<text id="cnttbptcpltfup-label">
+						<value>Has the patient completed follow-up here? </value>
+					</text>
+					<text id="cnttbptcpltfup-yes-label">
+						<value>Yes</value>
+					</text>
+					<text id="cnttbptcpltfup-no-label">
+						<value>No</value>
+					</text>
+					<text id="cplttbrxoutcome-label">
+						<value>If Yes, what is the outcome?</value>
+					</text>
+					<text id="cplttbrxoutcome-cured-label">
+						<value>Cured</value>
+					</text>
+					<text id="cplttbrxoutcome-treatment_completed-label">
+						<value>Treatment Completed</value>
+					</text>
+					<text id="cplttbrxoutcome-treatment_failed-label">
+						<value>Treatment Failed</value>
+					</text>
+					<text id="cplttbrxoutcome-died-label">
+						<value>Died</value>
+					</text>
+					<text id="cplttbrxoutcome-transferred_out-label">
+						<value>Not evaluated -transferred out</value>
+					</text>
+					<text id="cplttbrxoutcome-unknown-label">
+						<value>Not evaluated - unknown</value>
+					</text>
+					<text id="cplttbrxoutcome-lost_to_follow_up-label">
+						<value>Lost to follow-up</value>
+					</text>
+				</translation>
+			</itext>
+		<setvalue event="xforms-ready" ref="/data/meta/deviceID" value="instance('commcaresession')/session/context/deviceid"/><setvalue event="xforms-ready" ref="/data/meta/timeStart" value="now()"/><bind nodeset="/data/meta/timeStart" type="xsd:dateTime"/><setvalue event="xforms-revalidate" ref="/data/meta/timeEnd" value="now()"/><bind nodeset="/data/meta/timeEnd" type="xsd:dateTime"/><setvalue event="xforms-ready" ref="/data/meta/username" value="instance('commcaresession')/session/context/username"/><setvalue event="xforms-ready" ref="/data/meta/userID" value="instance('commcaresession')/session/context/userid"/><setvalue event="xforms-ready" ref="/data/meta/instanceID" value="uuid()"/><setvalue event="xforms-ready" ref="/data/meta/appVersion" value="instance('commcaresession')/session/context/appversion"/></model>
+		&lt;!-- Intents inserted by Vellum: --&gt;
+		<odkx:intent xmlns:odkx="http://opendatakit.org/xforms" id="search" class="com.biometrac.core.PIPE">
+			<extra key="action_0" ref="/data/intent_0"/>
+			<extra key="action_1" ref="/data/intent_1"/>
+			<extra key="left_finger_assignment_0" ref="/data/finger_left_index"/>
+			<extra key="right_finger_assignment_0" ref="/data/finger_right_index"/>
+			<extra key="left_finger_assignment_1" ref="/data/finger_left_thumb"/>
+			<extra key="right_finger_assignment_1" ref="/data/finger_right_thumb"/>
+			<response key="matches_found" ref="/data/returned"/>
+			<response key="left_index" ref="/data/left_index"/>
+			<response key="left_thumb" ref="/data/left_thumb"/>
+			<response key="right_index" ref="/data/right_index"/>
+			<response key="right_thumb" ref="/data/right_thumb"/>
+			<response key="match_id_0" ref="/data/match_id"/>
+		</odkx:intent>
+	</h:head>
+	<h:body>
+		<input ref="/data/search" appearance="intent:search">
+			<label ref="jr:itext('biometricscanid-label')"/>
+		</input>
+		<trigger ref="/data/no_record_exists">
+			<label ref="jr:itext('no_record_exists-label')"/>
+		</trigger>
+		<trigger ref="/data/not_contact">
+			<label ref="jr:itext('not_contact-label')"/>
+		</trigger>
+		<trigger ref="/data/record_exists">
+			<label ref="jr:itext('record_exists-label')"/>
+		</trigger>
+		<input ref="/data/followupdt">
+			<label ref="jr:itext('followupdt-label')"/>
+		</input>
+		<input ref="/data/cntrxstdate">
+			<label ref="jr:itext('cntrxstdate-label')"/>
+		</input>
+		<input ref="/data/tbdosesmsd">
+			<label ref="jr:itext('tbdosesmsd-label')"/>
+			<hint ref="jr:itext('tbdosesmsd-hint')"/>
+		</input>
+		<input ref="/data/cnttbptltvisistdate">
+			<label ref="jr:itext('cnttbptltvisistdate-label')"/>
+		</input>
+		<select1 ref="/data/reghivcln">
+			<label ref="jr:itext('reghivcln-label')"/>
+			<item>
+				<label ref="jr:itext('cnttbptcpltfup-yes-label')"/>
+				<value>yes</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cnttbptcpltfup-no-label')"/>
+				<value>no</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cnttbptcurrart-nohiv-label')"/>
+				<value>nohiv</value>
+			</item>
+		</select1>
+		<select1 ref="/data/cnttbptcurrart">
+			<label ref="jr:itext('cnttbptcurrart-label')"/>
+			<item>
+				<label ref="jr:itext('cnttbptcpltfup-yes-label')"/>
+				<value>yes</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cnttbptcpltfup-no-label')"/>
+				<value>no</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cnttbptcurrart-nohiv-label')"/>
+				<value>nohiv</value>
+			</item>
+		</select1>
+		<select1 ref="/data/cnttbptcpltfup">
+			<label ref="jr:itext('cnttbptcpltfup-label')"/>
+			<item>
+				<label ref="jr:itext('cnttbptcpltfup-yes-label')"/>
+				<value>yes</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cnttbptcpltfup-no-label')"/>
+				<value>no</value>
+			</item>
+		</select1>
+		<select1 ref="/data/cplttbrxoutcome">
+			<label ref="jr:itext('cplttbrxoutcome-label')"/>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-cured-label')"/>
+				<value>cured</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-treatment_completed-label')"/>
+				<value>treatment_completed</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-treatment_failed-label')"/>
+				<value>treatment_failed</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-died-label')"/>
+				<value>died</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-transferred_out-label')"/>
+				<value>transferred_out</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-unknown-label')"/>
+				<value>unknown</value>
+			</item>
+			<item>
+				<label ref="jr:itext('cplttbrxoutcome-lost_to_follow_up-label')"/>
+				<value>lost_to_follow_up</value>
+			</item>
+		</select1>
+	</h:body>
+</h:html>

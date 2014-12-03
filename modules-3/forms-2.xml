@@ -1,0 +1,120 @@
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:vellum="http://commcarehq.org/xforms/vellum">
+	<h:head>
+		<h:title>Extended Procedures</h:title>
+		<model>
+			<instance>
+				<data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/7D0D73E3-1452-4CDE-9CB5-80A395253007" uiVersion="1" version="1043" name="Extended Procedures">
+					<not_required/>
+					<sample_collect>
+						<sputum_sample/>
+						<hct/>
+						<hiv_status/>
+					</sample_collect>
+					<age/>
+					<allocation/>
+					<allocation_id/>
+				<case xmlns="http://commcarehq.org/case/transaction/v2" case_id="" date_modified="" user_id=""/><orx:meta xmlns:cc="http://commcarehq.org/xforms"><orx:deviceID/><orx:timeStart/><orx:timeEnd/><orx:username/><orx:userID/><orx:instanceID/><cc:appVersion/></orx:meta></data>
+			</instance><instance id="commcaresession" src="jr://instance/session"/><instance id="casedb" src="jr://instance/casedb"/>
+			<bind nodeset="/data/not_required" relevant="/data/allocation = 'B'"/>
+			<bind nodeset="/data/sample_collect" relevant="/data/allocation = 'A'"/>
+			<bind nodeset="/data/sample_collect/sputum_sample" relevant="/data/age&gt;5"/>
+			<bind nodeset="/data/sample_collect/hct"/>
+			<bind nodeset="/data/sample_collect/hiv_status" relevant="/data/sample_collect/hct = 'yes'"/>
+			<bind nodeset="/data/age"/>
+			<bind nodeset="/data/allocation"/>
+			<bind nodeset="/data/allocation_id"/>
+			<itext>
+				<translation lang="en" default="">
+					<text id="not_required-label">
+						<value>This person does not require sample collection. Please navigate back to the home screen.</value>
+					</text>
+					<text id="sample_collect-label">
+						<value>Sample Collection</value>
+					</text>
+					<text id="sputum_sample-label">
+						<value>This person requires a sputum sample collection. Were they able to produce sputum?</value>
+					</text>
+					<text id="sputum_sample-yes-label">
+						<value>Yes</value>
+					</text>
+					<text id="sputum_sample-no-label">
+						<value>No</value>
+					</text>
+					<text id="hct-label">
+						<value>Please offer HCT. Did the person receive HCT?</value>
+					</text>
+					<text id="hct-yes-label">
+						<value>Yes, HCT offered and received</value>
+					</text>
+					<text id="hct-no-label">
+						<value>No, HCT not offered</value>
+					</text>
+					<text id="hct-refused-label">
+						<value>Refused HCT</value>
+					</text>
+					<text id="hiv_status-label">
+						<value>What is the HIV status?</value>
+					</text>
+					<text id="hiv_status-positive-label">
+						<value>Positive</value>
+					</text>
+					<text id="hiv_status-negative-label">
+						<value>Negative</value>
+					</text>
+					<text id="hiv_status-unknown-label">
+						<value>Unknown</value>
+					</text>
+				</translation>
+			</itext>
+		<bind calculate="/data/meta/timeEnd" nodeset="/data/case/@date_modified" type="xsd:dateTime"/><bind calculate="/data/meta/userID" nodeset="/data/case/@user_id"/><bind calculate="instance('commcaresession')/session/data/case_id" nodeset="/data/case/@case_id"/><setvalue event="xforms-ready" ref="/data/allocation" value="instance('casedb')/casedb/case[@case_id=instance('commcaresession')/session/data/case_id]/allocation"/><setvalue event="xforms-ready" ref="/data/allocation_id" value="instance('casedb')/casedb/case[@case_id=instance('commcaresession')/session/data/case_id]/allocation_id"/><setvalue event="xforms-ready" ref="/data/meta/deviceID" value="instance('commcaresession')/session/context/deviceid"/><setvalue event="xforms-ready" ref="/data/meta/timeStart" value="now()"/><bind nodeset="/data/meta/timeStart" type="xsd:dateTime"/><setvalue event="xforms-revalidate" ref="/data/meta/timeEnd" value="now()"/><bind nodeset="/data/meta/timeEnd" type="xsd:dateTime"/><setvalue event="xforms-ready" ref="/data/meta/username" value="instance('commcaresession')/session/context/username"/><setvalue event="xforms-ready" ref="/data/meta/userID" value="instance('commcaresession')/session/context/userid"/><setvalue event="xforms-ready" ref="/data/meta/instanceID" value="uuid()"/><setvalue event="xforms-ready" ref="/data/meta/appVersion" value="instance('commcaresession')/session/context/appversion"/></model>
+	</h:head>
+	<h:body>
+		<trigger ref="/data/not_required" appearance="minimal">
+			<label ref="jr:itext('not_required-label')"/>
+		</trigger>
+		<group ref="/data/sample_collect">
+			<label ref="jr:itext('sample_collect-label')"/>
+			<select1 ref="/data/sample_collect/sputum_sample">
+				<label ref="jr:itext('sputum_sample-label')"/>
+				<item>
+					<label ref="jr:itext('sputum_sample-yes-label')"/>
+					<value>yes</value>
+				</item>
+				<item>
+					<label ref="jr:itext('sputum_sample-no-label')"/>
+					<value>no</value>
+				</item>
+			</select1>
+			<select1 ref="/data/sample_collect/hct">
+				<label ref="jr:itext('hct-label')"/>
+				<item>
+					<label ref="jr:itext('hct-yes-label')"/>
+					<value>yes</value>
+				</item>
+				<item>
+					<label ref="jr:itext('hct-no-label')"/>
+					<value>no</value>
+				</item>
+				<item>
+					<label ref="jr:itext('hct-refused-label')"/>
+					<value>refused</value>
+				</item>
+			</select1>
+			<select1 ref="/data/sample_collect/hiv_status">
+				<label ref="jr:itext('hiv_status-label')"/>
+				<item>
+					<label ref="jr:itext('hiv_status-positive-label')"/>
+					<value>positive</value>
+				</item>
+				<item>
+					<label ref="jr:itext('hiv_status-negative-label')"/>
+					<value>negative</value>
+				</item>
+				<item>
+					<label ref="jr:itext('hiv_status-unknown-label')"/>
+					<value>unknown</value>
+				</item>
+			</select1>
+		</group>
+	</h:body>
+</h:html>
